@@ -44,15 +44,11 @@ public class GamePanel extends JPanel implements ActionListener {
 
                     this.renderGameTile(g, row, col);
                 }
-        //Score
-        g.setFont( new Font("Comic Sans MS",Font.PLAIN, 15));
-        FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Player A score: " + playerAScore, 700, 20);
-        FontMetrics metrics3 = getFontMetrics(g.getFont());
-        g.drawString("Player B score: " + playerBScore, 700, 35);
-        //Number of rounds
-        FontMetrics metrics4 = getFontMetrics(g.getFont());
-        g.drawString("Number of rounds: " + rounds, 700, 50);
+
+            this.renderObstacle(g, row, random.nextInt(9));
+
+            gameStats(g);
+
             }
         } else {
             gameOver(g);
@@ -66,7 +62,6 @@ public class GamePanel extends JPanel implements ActionListener {
         boolean isRowOdd = !isRowEven;
         boolean isColEven = (col % 2 == 0);
         boolean isColOdd = !isColEven;
-
 
       if (!(row == 2) && !(row == 3) && !(row == 4)) {
             if (isRowEven && isColEven) return Color.GRAY;
@@ -83,6 +78,29 @@ public class GamePanel extends JPanel implements ActionListener {
         Color tileColor = this.getTileColor(row, col);
         Tile tile = new Tile(row, col, tileColor);
         tile.render(g);
+    }
+
+    //Renders the obstacles
+    public void renderObstacle(Graphics g, int row, int col) {
+
+        if (row == 2 || row == 3 || row == 4) {
+            Obstacle obstacle = new Obstacle(row, col);
+            obstacle.render(g);
+        }
+    }
+
+    //Renders the current game stats
+    public void gameStats(Graphics g) {
+
+        //Score
+        g.setFont( new Font("Comic Sans MS",Font.PLAIN, 15));
+        g.drawString("Player A score: " + playerAScore, 685, 20);
+        g.drawString("Player B score: " + playerBScore, 685, 35);
+        //Number of rounds
+        g.drawString("Number of rounds: " + rounds, 685, 50);
+        //All destroyed pieces
+        g.drawString("Number of player A destroyed pieces: " + playerADestroyedPieces, 685, 65);
+        g.drawString("Number of player B destroyed pieces: " + playerBDestroyedPieces, 685, 80);
     }
 
     //Generates random number from 1 to 6
@@ -120,10 +138,10 @@ public class GamePanel extends JPanel implements ActionListener {
          damageTaken = selectedPieceAttack - opponentPieceShield
 
          if (player A is making the move) {
-            playerAScore += damageTaken
+            playerAScore += damageTaken;
          }
          if (player B is making the move) {
-            playerBScore += damageTaken
+            playerBScore += damageTaken;
          } */
     }
 
@@ -138,17 +156,17 @@ public class GamePanel extends JPanel implements ActionListener {
         //Score
         g.setFont( new Font("Comic Sans MS",Font.PLAIN, 25));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Player A score: " + playerAScore, (SCREEN_WIDTH - metrics2.stringWidth("Your score: "))/2, 200);
+        g.drawString("Player A score: " + playerAScore, (SCREEN_WIDTH - metrics2.stringWidth("Player A score: "))/2, 200);
         FontMetrics metrics3 = getFontMetrics(g.getFont());
-        g.drawString("Player B score: " + playerBScore, (SCREEN_WIDTH - metrics3.stringWidth("Your opponent's score: "))/2, 240);
+        g.drawString("Player B score: " + playerBScore, (SCREEN_WIDTH - metrics3.stringWidth("Player B score: "))/2, 240);
         //Number of rounds
         FontMetrics metrics4 = getFontMetrics(g.getFont());
         g.drawString("Number of rounds: " + rounds, (SCREEN_WIDTH - metrics4.stringWidth("Number of rounds: "))/2, 280);
         //All destroyed pieces
         FontMetrics metrics5 = getFontMetrics(g.getFont());
-        g.drawString("Number of player A destroyed pieces: " + playerADestroyedPieces, (SCREEN_WIDTH - metrics5.stringWidth("Number of your destroyed pieces: "))/2, 320);
+        g.drawString("Number of player A destroyed pieces: " + playerADestroyedPieces, (SCREEN_WIDTH - metrics5.stringWidth("Number of player A destroyed pieces: "))/2, 320);
         FontMetrics metrics6 = getFontMetrics(g.getFont());
-        g.drawString("Number of player B destroyed pieces: " + playerBDestroyedPieces, (SCREEN_WIDTH - metrics6.stringWidth("Number of your opponent's destroyed pieces: "))/2, 360);
+        g.drawString("Number of player B destroyed pieces: " + playerBDestroyedPieces, (SCREEN_WIDTH - metrics6.stringWidth("Number of player B destroyed pieces: "))/2, 360);
 
     }
 
@@ -164,7 +182,6 @@ public class GamePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if(gameRunning) {
-
             checkGameEnd();
         }
         repaint();
