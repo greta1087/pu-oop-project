@@ -11,13 +11,16 @@ public class GamePanel extends JPanel implements ActionListener {
 
     static final int SCREEN_WIDTH = 975;
     static final int SCREEN_HEIGHT = 525;
-    int yourScore;
-    int opponentScore;
+    int playerAScore;
+    int playerBScore;
     int rounds;
-    int yourDestroyedPieces;
-    int opponentDestroyedPieces;
+    int playerADestroyedPieces;
+    int playerBDestroyedPieces;
+    int dice;
     int healthRestored;
     int secondChanceMove;
+    int damageTaken;
+    int attackStrength;
     boolean gameRunning = true;
 
     Random random;
@@ -27,7 +30,6 @@ public class GamePanel extends JPanel implements ActionListener {
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setFocusable(true);
-
     }
 
     //Renders the components on the frame
@@ -73,18 +75,47 @@ public class GamePanel extends JPanel implements ActionListener {
         tile.render(g);
     }
 
-    public void healing () {
+    //Generates random number from 1 to 6
+    public int rollDice() {
 
-        healthRestored = random.nextInt(6);
+      return dice = random.nextInt(6);
+
+    }
+
+    //Logic for healing
+    public void healing() {
+
+        healthRestored = rollDice();
         //pieceHealth += healthRestored
 
-        secondChanceMove = random.nextInt(6);
+        secondChanceMove = rollDice();
 
         if(!(secondChanceMove % 2 == 0)) {
             //The player can make a move again
         }
     }
-    
+
+    //Checks the damage that has been made after attacking a piece
+    public void checkDamageTaken() {
+
+        attackStrength = rollDice() + rollDice() + rollDice();
+
+      /* if (attackStrength == 3) {
+            damageTaken = (pieceAttack - pieceShield) / 2;
+          }
+          if (attackStrength == pieceHealth) {
+            damageTaken = 0;
+          }
+
+         damageTaken = pieceAttack - pieceShield
+
+         if (player A is making the move) {
+            playerAScore += damageTaken
+         }
+         if (player B is making the move) {
+            playerBScore += damageTaken
+         } */
+    }
 
     //Renders game over screen
     public void gameOver(Graphics g) {
@@ -97,17 +128,17 @@ public class GamePanel extends JPanel implements ActionListener {
         //Score
         g.setFont( new Font("Comic Sans MS",Font.PLAIN, 25));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Your score: " + yourScore, (SCREEN_WIDTH - metrics2.stringWidth("Your score: "))/2, 200);
+        g.drawString("Player A score: " + playerAScore, (SCREEN_WIDTH - metrics2.stringWidth("Your score: "))/2, 200);
         FontMetrics metrics3 = getFontMetrics(g.getFont());
-        g.drawString("Your opponent's score: " + opponentScore, (SCREEN_WIDTH - metrics3.stringWidth("Your opponent's score: "))/2, 240);
+        g.drawString("Player B score: " + playerBScore, (SCREEN_WIDTH - metrics3.stringWidth("Your opponent's score: "))/2, 240);
         //Number of rounds
         FontMetrics metrics4 = getFontMetrics(g.getFont());
         g.drawString("Number of rounds: " + rounds, (SCREEN_WIDTH - metrics4.stringWidth("Number of rounds: "))/2, 280);
         //All destroyed pieces
         FontMetrics metrics5 = getFontMetrics(g.getFont());
-        g.drawString("Number of your destroyed pieces: " + yourDestroyedPieces, (SCREEN_WIDTH - metrics5.stringWidth("Number of your destroyed pieces: "))/2, 320);
+        g.drawString("Number of player A destroyed pieces: " + playerADestroyedPieces, (SCREEN_WIDTH - metrics5.stringWidth("Number of your destroyed pieces: "))/2, 320);
         FontMetrics metrics6 = getFontMetrics(g.getFont());
-        g.drawString("Number of your opponent's destroyed pieces: " + opponentDestroyedPieces, (SCREEN_WIDTH - metrics6.stringWidth("Number of your opponent's destroyed pieces: "))/2, 360);
+        g.drawString("Number of player B destroyed pieces: " + playerBDestroyedPieces, (SCREEN_WIDTH - metrics6.stringWidth("Number of your opponent's destroyed pieces: "))/2, 360);
 
     }
 
