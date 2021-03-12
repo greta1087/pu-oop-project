@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 //All the components of the application
 public class GamePanel extends JPanel implements ActionListener {
@@ -15,11 +16,15 @@ public class GamePanel extends JPanel implements ActionListener {
     int rounds;
     int yourDestroyedPieces;
     int opponentDestroyedPieces;
+    int healthRestored;
+    int secondChanceMove;
     boolean gameRunning = true;
 
+    Random random;
 
     GamePanel(){
 
+        random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
         this.setFocusable(true);
 
@@ -43,7 +48,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     //Sets the color of the game board tiles
-    private Color getTileColor(int row, int col) {
+    public Color getTileColor(int row, int col) {
 
         boolean isRowEven = (row % 2 == 0);
         boolean isRowOdd = !isRowEven;
@@ -61,15 +66,28 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     //Renders the tiles
-    private void renderGameTile(Graphics g, int row, int col) {
+    public void renderGameTile(Graphics g, int row, int col) {
 
         Color tileColor = this.getTileColor(row, col);
         Tile tile = new Tile(row, col, tileColor);
         tile.render(g);
     }
 
+    public void healing () {
+
+        healthRestored = random.nextInt(6);
+        //pieceHealth += healthRestored
+
+        secondChanceMove = random.nextInt(6);
+
+        if(!(secondChanceMove % 2 == 0)) {
+            //The player can make a move again
+        }
+    }
+    
+
     //Renders game over screen
-    private void gameOver(Graphics g) {
+    public void gameOver(Graphics g) {
 
         //Game Over text
         g.setColor(Color.BLACK);
