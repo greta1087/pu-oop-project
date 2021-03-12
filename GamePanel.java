@@ -1,5 +1,7 @@
 package game;
 
+import piece.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,8 +43,16 @@ public class GamePanel extends JPanel implements ActionListener {
                 for (int col = 0; col < 9; col++) {
 
                     this.renderGameTile(g, row, col);
-
                 }
+        //Score
+        g.setFont( new Font("Comic Sans MS",Font.PLAIN, 15));
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("Player A score: " + playerAScore, 700, 20);
+        FontMetrics metrics3 = getFontMetrics(g.getFont());
+        g.drawString("Player B score: " + playerBScore, 700, 35);
+        //Number of rounds
+        FontMetrics metrics4 = getFontMetrics(g.getFont());
+        g.drawString("Number of rounds: " + rounds, 700, 50);
             }
         } else {
             gameOver(g);
@@ -86,7 +96,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void healing() {
 
         healthRestored = rollDice();
-        //pieceHealth += healthRestored
+        //selectedPieceHealth += healthRestored;
 
         secondChanceMove = rollDice();
 
@@ -101,13 +111,13 @@ public class GamePanel extends JPanel implements ActionListener {
         attackStrength = rollDice() + rollDice() + rollDice();
 
       /* if (attackStrength == 3) {
-            damageTaken = (pieceAttack - pieceShield) / 2;
+            damageTaken = (selectedPieceAttack - opponentPieceShield) / 2;
           }
-          if (attackStrength == pieceHealth) {
+          if (attackStrength == opponentPieceHealth) {
             damageTaken = 0;
           }
 
-         damageTaken = pieceAttack - pieceShield
+         damageTaken = selectedPieceAttack - opponentPieceShield
 
          if (player A is making the move) {
             playerAScore += damageTaken
@@ -145,7 +155,9 @@ public class GamePanel extends JPanel implements ActionListener {
     //Checks if the game is over
     public void checkGameEnd() {
 
-        // if () { gameRunning = false; }
+    if (playerADestroyedPieces == 6 || playerBDestroyedPieces == 6) {
+              gameRunning = false;
+       }
     }
 
     @Override
