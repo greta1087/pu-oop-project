@@ -1,6 +1,7 @@
 package piece;
 import java.awt.*;
 
+//Creates the knight piece
 public class Knight extends Piece {
 
     public Knight(int row, int col, Color color) {

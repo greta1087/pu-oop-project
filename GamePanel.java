@@ -5,10 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+//All the components of the application
 public class GamePanel extends JPanel implements ActionListener {
+
     static final int SCREEN_WIDTH = 975;
     static final int SCREEN_HEIGHT = 525;
+    int yourScore;
+    int opponentScore;
+    int rounds;
+    int yourDestroyedPieces;
+    int opponentDestroyedPieces;
+    boolean gameRunning = true;
+
 
     GamePanel(){
 
@@ -17,19 +25,24 @@ public class GamePanel extends JPanel implements ActionListener {
 
     }
 
+    //Renders the components on the frame
     @Override
     public void paint(Graphics g) {
 
-        for(int row = 0; row < 7; row++) {
-            for(int col = 0; col < 9; col++) {
+        if(gameRunning) {
+            for (int row = 0; row < 7; row++) {
+                for (int col = 0; col < 9; col++) {
 
-                this.renderGameTile(g, row, col);
+                    this.renderGameTile(g, row, col);
 
+                }
             }
+        } else {
+            gameOver(g);
         }
-
     }
 
+    //Sets the color of the game board tiles
     private Color getTileColor(int row, int col) {
 
         boolean isRowEven = (row % 2 == 0);
@@ -47,7 +60,7 @@ public class GamePanel extends JPanel implements ActionListener {
         return Color.LIGHT_GRAY;
     }
 
-
+    //Renders the tiles
     private void renderGameTile(Graphics g, int row, int col) {
 
         Color tileColor = this.getTileColor(row, col);
@@ -55,6 +68,7 @@ public class GamePanel extends JPanel implements ActionListener {
         tile.render(g);
     }
 
+    //Renders game over screen
     private void gameOver(Graphics g) {
 
         //Game Over text
@@ -65,22 +79,35 @@ public class GamePanel extends JPanel implements ActionListener {
         //Score
         g.setFont( new Font("Comic Sans MS",Font.PLAIN, 25));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Your score: ", (SCREEN_WIDTH - metrics2.stringWidth("Your score: "))/2, 200);
+        g.drawString("Your score: " + yourScore, (SCREEN_WIDTH - metrics2.stringWidth("Your score: "))/2, 200);
         FontMetrics metrics3 = getFontMetrics(g.getFont());
-        g.drawString("Your opponent's score: ", (SCREEN_WIDTH - metrics3.stringWidth("Your opponent's score: "))/2, 240);
+        g.drawString("Your opponent's score: " + opponentScore, (SCREEN_WIDTH - metrics3.stringWidth("Your opponent's score: "))/2, 240);
         //Number of rounds
         FontMetrics metrics4 = getFontMetrics(g.getFont());
-        g.drawString("Number of rounds: ", (SCREEN_WIDTH - metrics4.stringWidth("Number of rounds: "))/2, 280);
+        g.drawString("Number of rounds: " + rounds, (SCREEN_WIDTH - metrics4.stringWidth("Number of rounds: "))/2, 280);
         //All destroyed pieces
         FontMetrics metrics5 = getFontMetrics(g.getFont());
-        g.drawString("Number of your destroyed pieces: ", (SCREEN_WIDTH - metrics5.stringWidth("Number of your destroyed pieces: "))/2, 320);
+        g.drawString("Number of your destroyed pieces: " + yourDestroyedPieces, (SCREEN_WIDTH - metrics5.stringWidth("Number of your destroyed pieces: "))/2, 320);
         FontMetrics metrics6 = getFontMetrics(g.getFont());
-        g.drawString("Number of your opponent's destroyed pieces: ", (SCREEN_WIDTH - metrics6.stringWidth("Number of your opponent's destroyed pieces: "))/2, 360);
+        g.drawString("Number of your opponent's destroyed pieces: " + opponentDestroyedPieces, (SCREEN_WIDTH - metrics6.stringWidth("Number of your opponent's destroyed pieces: "))/2, 360);
 
+    }
+
+    //Checks if the game is over
+    public void checkGameEnd() {
+
+        // if () { gameRunning = false; }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(gameRunning) {
+
+            checkGameEnd();
+        }
+        repaint();
     }
-}
+
+    }
+

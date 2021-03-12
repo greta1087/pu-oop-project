@@ -2,6 +2,7 @@ package game;
 
 import javax.swing.*;
 
+//Creates the frame of the application
 public class GameBoard extends JFrame {
 
     GameBoard(){

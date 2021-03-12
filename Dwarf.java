@@ -2,6 +2,7 @@ package piece;
 
 import java.awt.*;
 
+//Creates the dwarf piece
 public class Dwarf extends  Piece {
 
     public Dwarf(int row, int col, Color color) {

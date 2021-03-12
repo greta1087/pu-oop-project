@@ -2,8 +2,9 @@ package game;
 
 import java.awt.*;
 
+//Creates the game board tiles
 public class Tile {
-    static final int TILE_SIZE = 75;
+    public static final int TILE_SIZE = 75;
 
     private int row;
     private int col;

@@ -2,6 +2,7 @@ package piece;
 
 import java.awt.*;
 
+//Creates the elf piece
 public class Elf extends Piece {
 
     public Elf(int row, int col, Color color) {
